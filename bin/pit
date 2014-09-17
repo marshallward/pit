@@ -1,0 +1,4 @@
+#!/usr/bin/env python
+
+from pit import cli
+cli.parse()
