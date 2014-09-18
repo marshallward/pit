@@ -1,22 +1,17 @@
-.. pit documentation master file, created by
-   sphinx-quickstart on Thu Sep 18 14:28:22 2014.
-   You can adapt this file completely to your liking, but it should at least
-   contain the root `toctree` directive.
+===
+Pit
+===
 
-Welcome to pit's documentation!
-===============================
+Current release: |version|
+
+Pit is a yet-to-be-defined project. Something about experiment tracking.
+
+User Guide
+==========
 
 Contents:
 
 .. toctree::
    :maxdepth: 2
 
-
-
-Indices and tables
-==================
-
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`
-
+   manifesto
