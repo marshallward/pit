@@ -11,15 +11,7 @@ inputs must be defined by an input file located in the directory.
 
 All components that are essential to running the experiment (inputs) must
 themselves be uniquely identified. This will probably take the form of a hash
-function. The unique ID of each input need not be intimately associated with
-the input as we can regenerate that ID at will. For the case of input data the
-ID serves as verification. This means the unique ID must be defined in any
-configuration file that references an input data file along with the path to
-the input file. If the generated ID of the input file does not match that in
-the configuration file the control software/script must either locate the input
-file, stop execution and raise an error, or modify the configuration file to
-include the correct ID. The latter then corresponds to an alteration to the
-experiment.
+function.
 
 The executable used in the experiment must also have a unique identifier.
 Tracking changes to the executable is a separate task, but using the same
@@ -34,50 +26,41 @@ represent a comprehensive history of the experiment, as they capture changes to
 all the inputs, the executable and the status of each invocation, i.e. if the
 executable ran without error.
 
-Modern DRC systems generates a unique identifier for the state of the text
+Modern DRC systems generate a unique identifier for the state of the text
 files they monitor. To be compliant with the principals of forensic experiment
 tracking all configuration files necessary for the experiment to run must be
-monitored by the DRC system. As all input data that is defined within these
-configuration files is associated with a unique ID the state of the input data
-files will also be captured by the revision control system.
+monitored by the DRC system. Any file that is too large to be directly tracked
+must have it's ID stored in a file that can be added to the DRC system
 
 At it's most basic, starting an experiment can consist of creating a directory
 and copying into it the various input and configuration files that are
-required. It may be tools can be used to collect the necessary input files, and
+required. It may be that tools can be used to collect the necessary input files, and
 create the configuration files, but it is not a necessary requirement. What is
 required is that the software (usually a script of some sort) that runs the
 experiment performs the following steps:
 
-1. Check input data have correct IDs. If not the input data with the correct ID
-   must be found (and used), or the execution must stop and flag an error, or
-   the ID in the configuration file must be changed to match the input data.
-   Ideally this would be done before the main executable is run. If the input
-   files are large and calculating the ID is prohibitively time consuming this
-   step can be run in parallel with the main executable but working in this
-   mode allows for no pre-checks and sourcing correct input data files in the
-   case of an ID mismatch. Thus this mode only allows for the third option,
-   which is changing the experimental configuration.
-
-2. Once the experiment has finished the state, that is the success or otherwise
+1. Once the experiment has finished the state, that is the success or otherwise
    of the experimental run must be logged in a file that is under the control
    of the DRC system.
 
-3. The DRC system is invoked to save the state of the experiment, that is save
+2. The DRC system is invoked to save the state of the experiment, that is save
    the state of all the configuration files and history files that are
    "watched".
 
-4. Highly recommended (but optional) another program is invoked to save the
+3. Highly recommended (but optional) another program is invoked to save the
    state of this experiment in a database that contains information about all
-   experiments, allowing searches for common experiments, options, inputs. It
-   makes it easier to identify which experiments might have erroneous inputs,
-   or used versions of source code with bugs. The database is not necessary to
-   run experiments, the experimental state is stored in git, but it ties
-   experiments together. Potential collaborators could search each others
-   database to find what models they are running. They could even fork a
-   successful model and start using it themselves. A database can also be used
-   to curate data. On entry a use-by date can be automatically generated. This
-   does not guarantee deletion at that date, but allows for sequential deletion
-   of data when storage becomes limited.
+   experiments, allowing searches for common experiments, options, inputs. 
+
+The final, optional, step of saving the sate in a database makes it easier to 
+identify which experiments might have erroneous inputs,
+or used versions of source code with bugs. The database is not necessary to
+run experiments, the experimental state is stored in git, but it ties
+experiments together. Potential collaborators could search each others
+database to find what models they are running. They could even fork a
+successful model and start using it themselves. A database can also be used
+to curate data. On entry a use-by date can be automatically generated. This
+does not guarantee deletion at that date, but allows for sequential deletion
+of data when storage becomes limited.
 
 Finally, a unique identifier (DOI?) could be generated at point-of-publish for
 the datasets used in the publication (this might require a database to satisfy
